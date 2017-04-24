@@ -9,38 +9,17 @@ import { HeroService } from './hero.service';
   styleUrls: [ './heroes.component.css' ]
 })
 export class HeroesComponent implements OnInit {
-  heroes: Hero[];
   selectedHero: Hero;
-  todoCount = 0;
 
   constructor(
     private heroService: HeroService) { }
 
   getHeroes(): void {
-    if(this.todoCount === undefined) this.todoCount = 0;
-    this.heroService.getHeroes().then(heroes => this.heroes = heroes)
-      .then(() => {
-        this.todoCount = this.heroes.length;
-      });
+    this.heroService.getHeroes();
   }
-  
-  add(name: string): void {
-    name = name.trim();
-    if(!name) { return; }
-    this.heroService.create(name)
-      .then(hero => {
-        this.heroes.push(hero);
-        this.selectedHero = null;
-      });
-  }
-  
+
   delete(hero: Hero): void {
-    this.heroService
-        .delete(hero.id)
-        .then(() => {
-          this.heroes = this.heroes.filter(h => h !== hero);
-          if (this.selectedHero === hero) { this.selectedHero = null; }
-        });
+    this.heroService.delete(hero.id);
   }
 
   ngOnInit(): void {

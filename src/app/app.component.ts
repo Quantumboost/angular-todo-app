@@ -1,45 +1,44 @@
 import { Component } from '@angular/core';
 
-import { HeroService } from './hero.service';
+import { HeroService, HeroCounts } from './hero.service';
 import { HeroesComponent } from './heroes.component'
 
 @Component({
   selector: 'my-app',
   template: `
     <h1>{{title}}</h1>
+    <div>
+      <label>Hero name:</label> <input #newTodo />
+      <button (click)="add(newTodo.value); newTodo.value=''">
+        Add
+      </button>
+    </div>
     <router-outlet></router-outlet>
-    <div *ngIf="counts && counts.all > 0">
-      {{todoCount}} items left
+    <div *ngIf="heroService.counts && heroService.counts.all > 0">
+      {{heroService.counts.active||0}} items left
       <nav>
-        <a routerLink="/heroes">All</a>
+        <a routerLink="/">All</a>
         <a routerLink="/heroes">Active</a>
         <a routerLink="/heroes">Complete</a>
       </nav>
-      <button (click)="clearCompleted()">Clear completed</button>
+      <button (click)="heroService.clearCompleted()">Clear completed</button>
     </div>
   `,
   styleUrls: [ './app.component.css' ]
 })
 export class AppComponent {
-  title = 'Tour of Heroes';
+  title = 'Todo List';
 
   constructor(
     private heroService: HeroService) { }
 
-  getHeroCounts(): Promise<void> {
-    return this.heroService.getHeroCounts()
-      .then(counts => this.counts = counts)
-      .then(() => {
-        this.todoCount = this.counts.active;
-      });
-  }
-  
-  clearCompleted(): Promise<void> {
-    return this.heroService.clearCompleted()
-    .then(this.getHeroCounts);
+  add(name: string): void {
+    name = name.trim();
+    if(!name) { return; }
+    this.heroService.create(name);
   }
 
   ngOnInit(): void {
-    this.getHeroCounts();
+    this.heroService.getHeroCounts();
   }
 }

@@ -1,14 +1,9 @@
-<div>
-  <label>Hero name:</label> <input #newTodo />
-  <button (click)="add(newTodo.value); newTodo.value=''">
-    Add
-  </button>
-</div>
 <ul class="heroes">
-  <li *ngFor="let todo of heroes"
+  <li *ngFor="let todo of heroService.heroes"
     [class.selected]="todo === selectedHero"
     (click)="onSelect(todo)">
-    <span class="badge">{{todo.id}}</span>
+    <button class="complete" (click)="complete(todo);
+      $event.stopPropagation()">O</button>
     <span>{{todo.name}}</span>
     <button class="delete"
       (click)="delete(todo); $event.stopPropagation()">x</button>

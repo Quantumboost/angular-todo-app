@@ -31,7 +31,7 @@
   position: relative;
   top: -3px;
 }
-.heroes .badge {
+.heroes button.complete {
   display: inline-block;
   font-size: small;
   color: white;
