@@ -17,6 +17,10 @@ export class HeroesComponent implements OnInit {
   getHeroes(): void {
     this.heroService.getHeroes();
   }
+  
+  complete(hero: Hero): void {
+    this.heroService.flipCompletion(hero.id);
+  }
 
   delete(hero: Hero): void {
     this.heroService.delete(hero.id);

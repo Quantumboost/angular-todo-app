@@ -21,12 +21,12 @@ export class HeroService {
 
   getHeroes(): Promise<Hero[]> {
     return this.http.get(this.heroesUrl)
-                    .toPromise()
-                    .then(response => {
-                      this.heroes = response.json().data as Hero[];
-                      return this.heroes;
-                    })
-                    .catch(this.handleError);
+      .toPromise()
+      .then(response => {
+        this.heroes = response.json().data as Hero[];
+        return this.heroes;
+      })
+      .catch(this.handleError);
   }
 
   getHeroCounts(): Promise<HeroCounts> {
@@ -34,12 +34,24 @@ export class HeroService {
       .then((heroes: Hero[]) => {
         this.counts = {all: 0, active: 0, completed: 0};
         for(let hero of this.heroes) {
-            ++this.counts.all;
-            if(hero.completed) ++this.counts.completed;
-            else ++this.counts.active;
+          ++this.counts.all;
+          if(hero.completed) ++this.counts.completed;
+          else ++this.counts.active;
         }
         return this.counts;
       });
+  }
+
+  flipCompletion(id: number): void {
+    let hero = this.heroes.find(hero => hero.id == id);
+    hero.completed = !hero.completed;
+    if(hero.completed) {
+        ++this.counts.completed;
+        --this.counts.active;
+    } else {
+        ++this.counts.active;
+        --this.counts.completed;
+    }
   }
 
   private headers = new Headers({'Content-Type': 'application/json'});
@@ -61,8 +73,9 @@ export class HeroService {
       .catch(this.handleError)
       .then(hero => {
         this.heroes.push(hero);
-        this.selectedHero = null;
-        this.getHeroCounts();
+        this.counts.active++;
+        this.counts.all++;
+        return hero;
       });
   }
 
@@ -81,20 +94,27 @@ export class HeroService {
   }
 
   clearCompleted(): Promise<void> {
-    var newCounts = this.counts;
-    newCounts.all = newCounts.all-newCounts.completed;
-    newCounts.completed = 0;
+    var newCounts:HeroCounts = {
+        all: this.counts.all-this.counts.completed,
+        active: this.counts.active,
+        completed: 0
+    };
 
-    let ids = [];
+    let ids : number[] = [];
     let deletions = [];
-    for(let i:number in this.heroes) {
-        if(this.heroes[i].complete) {
-            ids.push(this.heroes[i].id);
-            deletions.push(this.delete(this.heroes[i].id));
-        }
+    for(let i in this.heroes) {
+      if(this.heroes[i].completed) {
+        let id = this.heroes[i].id;
+        ids.push(id);
+        deletions.push(this.http.delete(`${this.heroesUrl}/${id}`, {headers: this.headers})
+          .toPromise());
+      }
     }
 
-    return Promise.resolve().then(() => this.counts = newCounts);
+    return Promise.resolve().then(() => {
+      this.counts = newCounts;
+      this.heroes = this.heroes.filter(h => !ids.includes(h.id));
+    });
   }
 
   private handleError(error: any): Promise<any> {
