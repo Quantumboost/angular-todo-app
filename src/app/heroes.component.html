@@ -1,9 +1,9 @@
 <ul class="heroes">
-  <li *ngFor="let todo of heroService.heroes"
+  <li *ngFor="let todo of heroes"
     [class.selected]="todo === selectedHero"
     (click)="onSelect(todo)">
-    <button class="complete" (click)="complete(todo);
-      $event.stopPropagation()">O</button>
+    <button [class]="'completion ' + (todo.completed ? 'complete' : 'incomplete')" (click)="flipCompletion(todo);
+      $event.stopPropagation()" ></button>
     <span>{{todo.name}}</span>
     <button class="delete"
       (click)="delete(todo); $event.stopPropagation()">x</button>

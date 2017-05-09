@@ -39,6 +39,7 @@ export class AppComponent {
   }
 
   ngOnInit(): void {
-    this.heroService.getHeroCounts();
+    this.heroService.getHeroes()
+    .then(() => this.heroService.getHeroCounts());
   }
 }

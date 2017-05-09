@@ -10,20 +10,26 @@ import { HeroService } from './hero.service';
 })
 export class HeroesComponent implements OnInit {
   selectedHero: Hero;
+  heroes: Hero[];
 
   constructor(
     private heroService: HeroService) { }
 
-  getHeroes(): void {
-    this.heroService.getHeroes();
+  getHeroes(): Promise<Hero[]> {
+    return this.heroService.getHeroes().then((heroes: Hero[]) => {
+        this.heroes = heroes;
+        return this.heroes;
+    });
   }
-  
-  complete(hero: Hero): void {
-    this.heroService.flipCompletion(hero.id);
+
+  flipCompletion(hero: Hero) {
+    hero.completed = !hero.completed;
+    this.heroService.update(hero);
   }
 
   delete(hero: Hero): void {
     this.heroService.delete(hero.id);
+    this.heroes = this.heroes.filter(h => h.id !== hero.id);
   }
 
   ngOnInit(): void {
