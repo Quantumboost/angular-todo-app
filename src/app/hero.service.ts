@@ -48,7 +48,7 @@ export class HeroService {
     return this.http
       .put(url, JSON.stringify(hero), {headers: this.headers})
       .toPromise()
-      .then(res => res.json().data as Hero)
+      .then(res => hero)
       .catch(this.handleError);
   }
 

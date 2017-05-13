@@ -14,8 +14,6 @@
   left: 0;
   background-color: #EEE;
   margin: .5em;
-  padding: .3em 0;
-  height: 1.6em;
   border-radius: 4px;
 }
 .heroes li.selected:hover {
@@ -27,29 +25,11 @@
   background-color: #DDD;
   left: .1em;
 }
-.heroes .text {
-  position: relative;
-  top: -3px;
-}
-.heroes button.completion {
-  display: inline-block;
-  padding: 0.8em 0.7em 0 0.7em;
-  position: relative;
-  height: 1.8em;
-  margin-right: .8em;
-  border-radius: 4px 0 0 4px;
-}
-.heroes button.complete {
-  background-color: #607D8B;
-}
-.heroes button.incomplete {
-  background-color: white;
-}
 
-button.delete {
-  float:right;
-  margin-top: 2px;
-  margin-right: .8em;
-  background-color: gray !important;
-  color:white;
+.heroes button.delete {
+  float: right;
+  color: black;
+}
+.heroes button.delete:hover {
+  color: red;
 }

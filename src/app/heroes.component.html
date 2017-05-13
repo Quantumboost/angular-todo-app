@@ -2,10 +2,12 @@
   <li *ngFor="let todo of heroes"
     [class.selected]="todo === selectedHero"
     (click)="onSelect(todo)">
-    <button [class]="'completion ' + (todo.completed ? 'complete' : 'incomplete')" (click)="flipCompletion(todo);
-      $event.stopPropagation()" ></button>
+    <button md-icon-button class="completion" (click)="flipCompletion(todo);
+      $event.stopPropagation()"><md-icon>{{todo.completed ? 'check_box' : 'check_box_outline_blank'}}</md-icon></button>
     <span>{{todo.name}}</span>
     <button class="delete"
-      (click)="delete(todo); $event.stopPropagation()">x</button>
+      md-icon-button (click)="delete(todo); $event.stopPropagation()">
+      <md-icon>close</md-icon>
+    </button>
   </li>
 </ul>
