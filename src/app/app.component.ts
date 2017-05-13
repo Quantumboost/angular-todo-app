@@ -40,7 +40,6 @@ export class AppComponent {
   }
 
   ngOnInit(): void {
-    this.taskService.getTasks()
-    .then(() => this.taskService.getTaskCounts());
+    this.taskService.getTasks();
   }
 }

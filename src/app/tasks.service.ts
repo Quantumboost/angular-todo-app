@@ -14,6 +14,7 @@ export class TaskCounts {
 @Injectable()
 export class TaskService {
   private tasksUrl = 'api/tasks'; // URL to web api
+  selectedTask:number = -1;
   public tasks:Task[];
   public active_tasks:Task[];
   public completed_tasks:Task[];
@@ -46,6 +47,10 @@ export class TaskService {
   }
 
   private headers = new Headers({'Content-Type': 'application/json'});
+
+  select(task: Task): void {
+    this.selectedTask = task.id;
+  }
 
   update(task: Task): Promise<void> {
     const url = `${this.tasksUrl}/${task.id}`;

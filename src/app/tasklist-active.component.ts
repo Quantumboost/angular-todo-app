@@ -8,14 +8,8 @@ import { TaskService } from './tasks.service';
   templateUrl: './tasklist-active.component.html',
   styleUrls: [ './tasklist.component.css' ]
 })
-export class ActiveTasksListComponent implements OnInit {
-  selectedTask: Task;
-
+export class ActiveTasksListComponent {
   constructor(private taskService: TaskService) { }
-
-  getTasks(): Promise<Task[]> {
-    return this.taskService.getTasks();
-  }
 
   flipCompletion(task: Task) {
     task.completed = !task.completed;
@@ -26,11 +20,7 @@ export class ActiveTasksListComponent implements OnInit {
     this.taskService.delete(task.id);
   }
 
-  ngOnInit(): void {
-    this.getTasks();
-  }
-
   onSelect(task: Task): void {
-    this.selectedTask = task;
+    this.taskService.select(task);
   }
 }
