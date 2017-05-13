@@ -12,6 +12,8 @@ import { InMemoryDataService }  from './in-memory-data.service';
 
 import { AppComponent }    from './app.component';
 import { AllTasksListComponent } from './tasklist-all.component';
+import { ActiveTasksListComponent } from './tasklist-active.component';
+import { CompletedTasksListComponent } from './tasklist-completed.component';
 import { TaskService }     from './tasks.service';
 
 @NgModule({
@@ -25,7 +27,9 @@ import { TaskService }     from './tasks.service';
   ],
   declarations: [
     AppComponent,
-    AllTasksListComponent
+    AllTasksListComponent,
+    ActiveTasksListComponent,
+    CompletedTasksListComponent
   ],
   providers: [ TaskService ],
   bootstrap: [ AppComponent ]

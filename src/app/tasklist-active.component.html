@@ -1,0 +1,13 @@
+<ul class="tasks">
+  <li *ngFor="let todo of taskService.active_tasks"
+    [class.selected]="todo === selectedTask"
+    (click)="onSelect(todo)">
+    <button md-icon-button class="completion" (click)="flipCompletion(todo);
+      $event.stopPropagation()"><md-icon>{{todo.completed ? 'check_box' : 'check_box_outline_blank'}}</md-icon></button>
+    <span>{{todo.name}}</span>
+    <button class="delete"
+      md-icon-button (click)="delete(todo); $event.stopPropagation()">
+      <md-icon>close</md-icon>
+    </button>
+  </li>
+</ul>

@@ -15,6 +15,8 @@ export class TaskCounts {
 export class TaskService {
   private tasksUrl = 'api/tasks'; // URL to web api
   public tasks:Task[];
+  public active_tasks:Task[];
+  public completed_tasks:Task[];
   public counts:TaskCounts = {all:0, active:0, completed:0};
 
   constructor(private http: Http) { }
