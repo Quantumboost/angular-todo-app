@@ -81,11 +81,11 @@ export class TaskService {
   }
 
   delete(id: number): Promise<void> {
-    this.tasks = this.tasks.filter((t:Task) => t.id !== id);
     const url = `${this.tasksUrl}/${id}`;
     return this.http.delete(url, {headers: this.headers})
       .toPromise()
       .then(res => {
+        this.tasks = this.tasks.filter((t:Task) => t.id !== id);
         this.active_tasks = this.tasks.filter((t:Task) => !t.completed);
         this.completed_tasks = this.tasks.filter((t:Task) => t.completed);
         this.getTaskCounts();
@@ -105,7 +105,7 @@ export class TaskService {
       }
     }
 
-    return Promise.resolve().then(() => {
+    return Promise.all(deletions).then(() => {
       this.tasks = this.tasks.filter((t:Task) => !ids.includes(t.id));
       this.active_tasks = this.tasks.filter((t:Task) => !t.completed);
       this.completed_tasks = this.tasks.filter((t:Task) => t.completed);
