@@ -10,16 +10,12 @@ import { HeroService } from './hero.service';
 })
 export class HeroesComponent implements OnInit {
   selectedHero: Hero;
-  heroes: Hero[];
 
   constructor(
     private heroService: HeroService) { }
 
   getHeroes(): Promise<Hero[]> {
-    return this.heroService.getHeroes().then((heroes: Hero[]) => {
-        this.heroes = heroes;
-        return this.heroes;
-    });
+    return this.heroService.getHeroes();
   }
 
   flipCompletion(hero: Hero) {
@@ -29,7 +25,6 @@ export class HeroesComponent implements OnInit {
 
   delete(hero: Hero): void {
     this.heroService.delete(hero.id);
-    this.heroes = this.heroes.filter(h => h.id !== hero.id);
   }
 
   ngOnInit(): void {

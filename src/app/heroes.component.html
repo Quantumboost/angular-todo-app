@@ -1,5 +1,5 @@
 <ul class="heroes">
-  <li *ngFor="let todo of heroes"
+  <li *ngFor="let todo of heroService.heroes"
     [class.selected]="todo === selectedHero"
     (click)="onSelect(todo)">
     <button md-icon-button class="completion" (click)="flipCompletion(todo);

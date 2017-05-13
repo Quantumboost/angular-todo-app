@@ -43,12 +43,14 @@ export class HeroService {
 
   private headers = new Headers({'Content-Type': 'application/json'});
 
-  update(hero: Hero): Promise<Hero> {
+  update(hero: Hero): Promise<void> {
     const url = `${this.heroesUrl}/${hero.id}`;
     return this.http
       .put(url, JSON.stringify(hero), {headers: this.headers})
       .toPromise()
-      .then(res => hero)
+      .then(res => {
+        this.getHeroCounts();
+      })
       .catch(this.handleError);
   }
 
@@ -66,10 +68,13 @@ export class HeroService {
   }
 
   delete(id: number): Promise<void> {
+    this.heroes = this.heroes.filter(h => h.id !== id);
     const url = `${this.heroesUrl}/${id}`;
     return this.http.delete(url, {headers: this.headers})
       .toPromise()
-      .then(res => {})
+      .then(res => {
+        this.getHeroCounts();
+      })
       .catch(this.handleError);
   }
 
