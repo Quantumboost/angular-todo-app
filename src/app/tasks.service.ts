@@ -26,6 +26,8 @@ export class TaskService {
       .toPromise()
       .then(response => {
         this.tasks = response.json().data as Task[];
+        this.active_tasks = this.tasks.filter((t:Task) => !t.completed);
+        this.completed_tasks = this.tasks.filter((t:Task) => t.completed);
         this.getTaskCounts();
         return this.tasks;
       })
@@ -34,7 +36,7 @@ export class TaskService {
 
   getTaskCounts(): TaskCounts {
     this.counts.all = this.counts.active = this.counts.completed = 0;
-    
+
     for(let task of this.tasks) {
       ++this.counts.all;
       if(task.completed) ++this.counts.completed;
@@ -51,6 +53,8 @@ export class TaskService {
       .put(url, JSON.stringify(task), {headers: this.headers})
       .toPromise()
       .then(res => {
+        this.active_tasks = this.tasks.filter((t:Task) => !t.completed);
+        this.completed_tasks = this.tasks.filter((t:Task) => t.completed);
         this.getTaskCounts();
       })
       .catch(this.handleError);
@@ -64,6 +68,8 @@ export class TaskService {
       .catch(this.handleError)
       .then(task => {
         this.tasks.push(task);
+        this.active_tasks = this.tasks.filter((t:Task) => !t.completed);
+        this.completed_tasks = this.tasks.filter((t:Task) => t.completed);
         this.getTaskCounts();
         return task;
       });
@@ -75,18 +81,14 @@ export class TaskService {
     return this.http.delete(url, {headers: this.headers})
       .toPromise()
       .then(res => {
+        this.active_tasks = this.tasks.filter((t:Task) => !t.completed);
+        this.completed_tasks = this.tasks.filter((t:Task) => t.completed);
         this.getTaskCounts();
       })
       .catch(this.handleError);
   }
 
   clearCompleted(): Promise<void> {
-    var newCounts:TaskCounts = {
-        all: this.counts.all-this.counts.completed,
-        active: this.counts.active,
-        completed: 0
-    };
-
     let ids : number[] = [];
     let deletions = [];
     for(let i in this.tasks) {
@@ -99,8 +101,10 @@ export class TaskService {
     }
 
     return Promise.resolve().then(() => {
-      this.counts = newCounts;
       this.tasks = this.tasks.filter((t:Task) => !ids.includes(t.id));
+      this.active_tasks = this.tasks.filter((t:Task) => !t.completed);
+      this.completed_tasks = this.tasks.filter((t:Task) => t.completed);
+      this.getTaskCounts();
     });
   }
 
