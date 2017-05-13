@@ -6,23 +6,24 @@ import { HeroesComponent } from './heroes.component'
 @Component({
   selector: 'my-app',
   template: `
-    <h1>{{title}}</h1>
-    <div>
-      <label>Hero name:</label> <input #newTodo />
-      <button (click)="add(newTodo.value); newTodo.value=''">
-        Add
-      </button>
-    </div>
+    <section>
+      <header>
+        <h1>{{title}}</h1>
+        <form (submit)="add(newTodo.value); newTodo.value=''">
+          <input placeholder="What needs to be done?" #newTodo />
+        </form>
+      </header>
     <router-outlet></router-outlet>
-    <div *ngIf="heroService.counts && heroService.counts.all > 0">
-      {{heroService.counts.active||0}} items left
+    <footer *ngIf="heroService.counts && heroService.counts.all > 0">
+      <span>{{heroService.counts.active||0}} items left</span>
       <nav>
         <a routerLink="/">All</a>
         <a routerLink="/heroes">Active</a>
         <a routerLink="/heroes">Complete</a>
       </nav>
       <button (click)="heroService.clearCompleted()">Clear completed</button>
-    </div>
+    </footer>
+    </section>
   `,
   styleUrls: [ './app.component.css' ]
 })
