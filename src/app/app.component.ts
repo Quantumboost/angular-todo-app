@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 
-import { HeroService, HeroCounts } from './hero.service';
-import { HeroesComponent } from './heroes.component'
+import { TaskService, TaskCounts } from './tasks.service';
+import { AllTasksListComponent } from './tasklist-all.component'
 
 @Component({
   selector: 'my-app',
@@ -14,14 +14,14 @@ import { HeroesComponent } from './heroes.component'
         </form>
       </header>
     <router-outlet></router-outlet>
-    <footer *ngIf="heroService.counts && heroService.counts.all > 0">
-      <span>{{heroService.counts.active||0}} items left</span>
+    <footer *ngIf="taskService.counts && taskService.counts.all > 0">
+      <span>{{taskService.counts.active||0}} items left</span>
       <nav>
         <a routerLink="/">All</a>
-        <a routerLink="/heroes">Active</a>
-        <a routerLink="/heroes">Complete</a>
+        <a routerLink="/active">Active</a>
+        <a routerLink="/completed">Complete</a>
       </nav>
-      <button (click)="heroService.clearCompleted()">Clear completed</button>
+      <button (click)="taskService.clearCompleted()">Clear completed</button>
     </footer>
     </section>
   `,
@@ -31,16 +31,16 @@ export class AppComponent {
   title = 'Todo List';
 
   constructor(
-    private heroService: HeroService) { }
+    private taskService: TaskService) { }
 
   add(name: string): void {
     name = name.trim();
     if(!name) { return; }
-    this.heroService.create(name);
+    this.taskService.create(name);
   }
 
   ngOnInit(): void {
-    this.heroService.getHeroes()
-    .then(() => this.heroService.getHeroCounts());
+    this.taskService.getTasks()
+    .then(() => this.taskService.getTaskCounts());
   }
 }

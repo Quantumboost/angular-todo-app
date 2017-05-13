@@ -1,11 +1,12 @@
 import { NgModule }             from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
-import { HeroesComponent } from './heroes.component';
+import { AllTasksListComponent } from './tasklist-all.component';
 
 const routes: Routes = [
-  { path: '',       component: HeroesComponent },
-  { path: 'heroes', component: HeroesComponent }
+  { path: '',       component: AllTasksListComponent },
+  { path: 'active', component: AllTasksListComponent },
+  { path: 'completed', component: AllTasksListComponent }
 ];
 
 @NgModule({

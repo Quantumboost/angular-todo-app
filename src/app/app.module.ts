@@ -11,8 +11,8 @@ import { InMemoryWebApiModule } from 'angular-in-memory-web-api';
 import { InMemoryDataService }  from './in-memory-data.service';
 
 import { AppComponent }    from './app.component';
-import { HeroesComponent } from './heroes.component';
-import { HeroService }     from './hero.service';
+import { AllTasksListComponent } from './tasklist-all.component';
+import { TaskService }     from './tasks.service';
 
 @NgModule({
   imports:      [
@@ -25,9 +25,9 @@ import { HeroService }     from './hero.service';
   ],
   declarations: [
     AppComponent,
-    HeroesComponent
+    AllTasksListComponent
   ],
-  providers: [ HeroService ],
+  providers: [ TaskService ],
   bootstrap: [ AppComponent ]
 })
 export class AppModule { }

@@ -3,13 +3,13 @@
   color: white;
 }
 
-.heroes {
+.tasks {
   margin: 0;
   list-style-type: none;
   padding: 0;
   border: solid grey 1px;
 }
-.heroes li {
+.tasks li {
   cursor: pointer;
   position: relative;
   left: 0;
@@ -17,23 +17,23 @@
   margin: 0;
 }
 
-.heroes li + li {
+.tasks li + li {
   border-top: solid grey 1px;
 }
 
-.heroes li.selected:hover {
+.tasks li.selected:hover {
   background-color: #BBD8DC !important;
   color: white;
 }
-.heroes li:hover {
+.tasks li:hover {
   color: #039be5;
   background-color: #DDD;
 }
 
-.heroes button.delete {
+.tasks button.delete {
   float: right;
   color: black;
 }
-.heroes button.delete:hover {
+.tasks button.delete:hover {
   color: red;
 }

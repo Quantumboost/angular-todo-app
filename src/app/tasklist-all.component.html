@@ -1,6 +1,6 @@
-<ul class="heroes">
-  <li *ngFor="let todo of heroService.heroes"
-    [class.selected]="todo === selectedHero"
+<ul class="tasks">
+  <li *ngFor="let todo of taskService.tasks"
+    [class.selected]="todo === selectedTask"
     (click)="onSelect(todo)">
     <button md-icon-button class="completion" (click)="flipCompletion(todo);
       $event.stopPropagation()"><md-icon>{{todo.completed ? 'check_box' : 'check_box_outline_blank'}}</md-icon></button>
